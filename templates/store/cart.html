@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Savatcha</title>
+</head>
+<body>
+    <h1>Sizning savatchangiz</h1>
+
+    {% if items %}
+        <ul>
+            {% for item in items %}
+                <li>
+                    {{ item.product.name }} — {{ item.quantity }} ta — {{ item.total_price }} so‘m
+                </li>
+            {% endfor %}
+        </ul>
+        <h3>Umumiy narx: {{ total }} so‘m</h3>
+    {% else %}
+        <p>Savatchangiz bo‘sh.</p>
+    {% endif %}
+
+    <a href="{% url 'home' %}">← Bosh sahifaga qaytish</a>
+</body>
+</html>

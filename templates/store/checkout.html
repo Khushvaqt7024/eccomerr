@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Buyurtma tasdiqlandi</title>
+</head>
+<body>
+    <h1>Buyurtma uchun rahmat!</h1>
+    <p>Buyurtma raqami: {{ order.id }}</p>
+    <p>Umumiy narx: {{ order.total_price }} so‘m</p>
+    <p>Status: {% if order.is_paid %}To‘langan{% else %}To‘lanmagan{% endif %}</p>
+
+    <a href="{% url 'home' %}">← Bosh sahifaga qaytish</a>
+</body>
+</html>
