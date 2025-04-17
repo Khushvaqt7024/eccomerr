@@ -1,115 +1,58 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bosh sahifa</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0 20px;
-        }
+{% extends 'base/base.html' %}
+{% block title %}Bosh sahifa{% endblock %}
 
-        header {
-            padding: 20px 0;
-            border-bottom: 1px solid #ccc;
-        }
+{% block content %}
+<h2 class="mb-4">Mahsulotlar</h2>
 
-        header h1 {
-            margin: 0;
-        }
+<form method="get" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Mahsulot qidirish...">
+        <button class="btn btn-outline-secondary" type="submit">Qidirish</button>
+    </div>
+</form>
 
-        .auth-links {
-            margin-top: 10px;
-        }
-
-        .auth-links a {
-            margin-right: 10px;
-            text-decoration: none;
-            color: #007bff;
-        }
-
-        .product-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .product {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 10px;
-            width: 230px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .product img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .add-to-cart {
-            margin-top: 10px;
-            padding: 8px 15px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .add-to-cart:hover {
-            background-color: #218838;
-        }
-
-        footer {
-            margin-top: 50px;
-            padding: 20px 0;
-            border-top: 1px solid #ccc;
-            text-align: center;
-            font-size: 14px;
-            color: #666;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>Bosh sahifa</h1>
-        <div class="auth-links">
-            {% if user.is_authenticated %}
-                <p>Salom, {{ user.username }} | <a href="{% url 'logout' %}">Chiqish</a></p>
-            {% else %}
-                <a href="{% url 'login' %}">Kirish</a> |
-                <a href="{% url 'register' %}">Ro‘yxatdan o‘tish</a>
-            {% endif %}
-        </div>
-    </header>
-
-    <section id="products">
-        <h2>Mahsulotlar</h2>
-        <div class="product-list">
-            {% for product in products %}
-                <div class="product">
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                    <h3>{{ product.name }}</h3>
-                    <p>{{ product.description|truncatewords:15 }}</p>
-                    <p><strong>{{ product.price }} so‘m</strong></p>
-                    <button class="add-to-cart" data-id="{{ product.id }}">Savatchaga qo‘shish</button>
+<div class="row g-4">
+    {% for product in page_obj %}
+    <div class="col-md-3">
+        <div class="card h-100 shadow-sm">
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text text-muted">{{ product.description|truncatewords:15 }}</p>
+                <div class="mt-auto">
+                    <p class="fw-bold">{{ product.price }} so‘m</p>
+                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success w-100">Savatchaga qo‘shish</a>
                 </div>
-            {% empty %}
-                <p>Hozircha mahsulotlar mavjud emas.</p>
-            {% endfor %}
+            </div>
         </div>
-    </section>
+    </div>
+    {% empty %}
+    <p>Hech qanday mahsulot topilmadi.</p>
+    {% endfor %}
+</div>
+<div class="d-flex justify-content-end mb-3">
+    <a href="{% url 'add_product' %}" class="btn btn-primary">Mahsulot qo‘shish</a>
+</div>
 
-    <footer>
-        <p>&copy; 2025 E-commerce sayt</p>
-    </footer>
+{% if page_obj.has_other_pages %}
+<nav class="mt-4" aria-label="Sahifalash">
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">Oldingi</a>
+      </li>
+    {% endif %}
 
-</body>
-</html>
+    <li class="page-item disabled">
+      <span class="page-link">Sahifa {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    </li>
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Keyingi</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+{% endblock %}

@@ -24,7 +24,6 @@ urlpatterns = [
     path('', include('store.urls')),
 ]
 
-# Media fayllarni ishlatish (faqat developmentda)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

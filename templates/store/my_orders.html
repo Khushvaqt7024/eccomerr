@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Mening buyurtmalarim</title>
+</head>
+<body>
+    <h1>Mening buyurtmalarim</h1>
+
+    {% if orders %}
+        <ul>
+            {% for order in orders %}
+                <li>
+                    Buyurtma raqami: <strong>{{ order.id }}</strong><br>
+                    Sana: {{ order.created_at|date:"Y-m-d H:i" }}<br>
+                    Umumiy narx: {{ order.total_price }} so‘m<br>
+                    Holat: {% if order.is_paid %}To‘langan{% else %}To‘lanmagan{% endif %}
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Buyurtmalar topilmadi.</p>
+    {% endif %}
+
+    <a href="{% url 'home' %}">← Bosh sahifa</a>
+</body>
+</html>

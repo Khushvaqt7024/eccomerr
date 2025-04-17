@@ -2,14 +2,18 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>Buyurtma tasdiqlandi</title>
+    <title>Buyurtma berish</title>
 </head>
 <body>
-    <h1>Buyurtma uchun rahmat!</h1>
-    <p>Buyurtma raqami: {{ order.id }}</p>
-    <p>Umumiy narx: {{ order.total_price }} so‘m</p>
-    <p>Status: {% if order.is_paid %}To‘langan{% else %}To‘lanmagan{% endif %}</p>
+    <h1>Buyurtma berish</h1>
 
-    <a href="{% url 'home' %}">← Bosh sahifaga qaytish</a>
+    <p>Jami to‘lov: <strong>{{ cart.total_price }} so‘m</strong></p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">To‘lovni amalga oshirish</button>
+    </form>
+
+    <a href="{% url 'cart' %}">← Savatchaga qaytish</a>
 </body>
 </html>
