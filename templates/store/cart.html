@@ -2,10 +2,10 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>Savatcha</title>
+    <title>Savatcha 🛒</title>
 </head>
 <body>
-    <h1>Sizning savatchangiz</h1>
+    <h1>Sizning savatchangiz 🛒</h1>
 
     {% if items %}
         <ul>
@@ -15,11 +15,11 @@
                 </li>
             {% endfor %}
         </ul>
-        <h3>Umumiy narx: {{ total }} so‘m</h3>
+        <h3>Umumiy narx 💵: {{ total }} so‘m</h3>
     {% else %}
-        <p>Savatchangiz bo‘sh.</p>
+        <p>Savatchangiz bo‘sh 😢.</p>
     {% endif %}
 
-    <a href="{% url 'home' %}">← Bosh sahifaga qaytish</a>
+    <a href="{% url 'home' %}">👈 Bosh sahifaga qaytish</a>
 </body>
 </html>

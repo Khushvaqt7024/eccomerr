@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-    <meta charset="UTF-8">
-    <title>To‘lov muvaffaqiyatli</title>
-</head>
-<body>
-    <h1>✅ To‘lov muvaffaqiyatli amalga oshirildi!</h1>
-    <p>Buyurtma raqami: <strong>{{ order.id }}</strong></p>
-    <a href="{% url 'home' %}">← Bosh sahifaga qaytish</a>
-</body>
-</html>
+<h2>✅ To‘lov muvaffaqiyatli amalga oshirildi!</h2>
+<p>Buyurtma raqami: {{ order.id }}</p>
+<p>To‘lov usuli:
+    {% if payment_method == 'cash' %}
+        Naqd
+    {% elif payment_method == 'card' %}
+        Karta orqali (**** **** **** {{ card_number|slice:"-4:" }})
+    {% endif %}
+</p>
+

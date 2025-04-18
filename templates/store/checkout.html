@@ -1,19 +1,61 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-    <meta charset="UTF-8">
-    <title>Buyurtma berish</title>
-</head>
-<body>
-    <h1>Buyurtma berish</h1>
+{#<h2>To‘lov qilish</h2>#}
+{##}
+{#<form method="post">#}
+{#    {% csrf_token %}#}
+{#    <p>To‘lov usulini tanlang:</p>#}
+{#    <label><input type="radio" name="payment_method" value="cash" required> Naqd</label><br>#}
+{#    <label><input type="radio" name="payment_method" value="card" required id="card-option"> Karta orqali</label><br><br>#}
+{##}
+{#    <div id="card-info" style="display: none;">#}
+{#        <label>Karta raqami:</label><br>#}
+{#        <input type="text" name="card_number" maxlength="16" placeholder="XXXX XXXX XXXX XXXX">#}
+{#    </div>#}
+{##}
+{#    <button type="submit">To‘lovni amalga oshirish</button>#}
+{#</form>#}
+{##}
+{#<script>#}
+{#    const cardOption = document.getElementById('card-option');#}
+{#    const cardInfo = document.getElementById('card-info');#}
+{##}
+{#    document.querySelectorAll('input[name="payment_method"]').forEach(input => {#}
+{#        input.addEventListener('change', function() {#}
+{#            if (this.value === 'card') {#}
+{#                cardInfo.style.display = 'block';#}
+{#            } else {#}
+{#                cardInfo.style.display = 'none';#}
+{#            }#}
+{#        });#}
+{#    });#}
+{#</script>#}
 
-    <p>Jami to‘lov: <strong>{{ cart.total_price }} so‘m</strong></p>
+<h2>To‘lov qilish</h2>
 
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">To‘lovni amalga oshirish</button>
-    </form>
+{% if error %}
+    <p style="color:red;">{{ error }}</p>
+{% endif %}
 
-    <a href="{% url 'cart' %}">← Savatchaga qaytish</a>
-</body>
-</html>
+<form method="post">
+    {% csrf_token %}
+    <p>To‘lov usulini tanlang:</p>
+    <label><input type="radio" name="payment_method" value="cash" required> Naqd</label><br>
+    <label><input type="radio" name="payment_method" value="card" required id="card-option"> Karta orqali</label><br><br>
+
+    <div id="card-info" style="display: none;">
+        <label>Karta raqami:</label><br>
+        <input type="text" name="card_number" maxlength="16" placeholder="XXXX XXXX XXXX XXXX">
+    </div>
+
+    <button type="submit">To‘lovni amalga oshirish</button>
+</form>
+
+<script>
+    const cardOption = document.getElementById('card-option');
+    const cardInfo = document.getElementById('card-info');
+
+    document.querySelectorAll('input[name="payment_method"]').forEach(input => {
+        input.addEventListener('change', function() {
+            cardInfo.style.display = this.value === 'card' ? 'block' : 'none';
+        });
+    });
+</script>

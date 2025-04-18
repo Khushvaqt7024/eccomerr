@@ -2,7 +2,7 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>Savatcham</title>
+    <title>Savatcham 🛒</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,7 +36,7 @@
     </style>
 </head>
 <body>
-    <h1>Savatchangiz</h1>
+    <h1>Savatchangiz 🛒</h1>
 
     {% if items %}
         <ul>
@@ -48,15 +48,15 @@
                 </li>
             {% endfor %}
         </ul>
-        <p><strong>Umumiy narx:</strong> {{ total }} so‘m</p>
+        <p><strong>Umumiy narx 💵:</strong> {{ total }} so‘m</p>
         <form method="post" action="{% url 'checkout' %}">
             {% csrf_token %}
             <button type="submit" class="checkout-button">To‘lov qilish</button>
         </form>
     {% else %}
-        <p>Savatchangiz bo‘sh.</p>
+        <p>Savatchangiz bo‘sh 😢.</p>
     {% endif %}
 
-    <p><a href="{% url 'home' %}">← Bosh sahifa</a></p>
+    <p><a href="{% url 'home' %}">👈 Bosh sahifa</a></p>
 </body>
 </html>
