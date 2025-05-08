@@ -1,47 +1,273 @@
-/* static/css/styles.css */
+/* ==========================================
+   static/style.css — ZAMONAVIY VA BIRXIL DIZAYN
+   ========================================== */
+
+/* ——— CSS VARIABLES (Design Tokens) ——— */
+:root {
+  /* Colors */
+  --clr-bg: #f4f6f8;
+  --clr-primary: #2c3e50;
+  --clr-secondary: #ecf0f1;
+  --clr-card: #ffffff;
+  --clr-text: #333333;
+  --clr-accent: #3498db;
+  --clr-accent-hover: #2980b9;
+  --clr-shadow: rgba(0, 0, 0, 0.1);
+
+  /* Typography */
+  --ff-base: 'Poppins', Arial, sans-serif;
+  --fs-title: clamp(1.5rem, 5vw, 2.5rem);
+  --fs-lg: 1.25rem;
+  --fs-base: 1rem;
+  --fs-sm: 0.875rem;
+  --fw-normal: 400;
+  --fw-bold: 600;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --space-xl: 4rem;
+
+  /* Shadows */
+  --shadow-light: 0 4px 8px var(--clr-shadow);
+  --shadow-heavy: 0 8px 16px var(--clr-shadow);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --clr-bg: #1e1e1e;
+    --clr-secondary: #2c2c2c;
+    --clr-text: #e5e5e5;
+    --clr-card: #2c2c2c;
+    --clr-shadow: rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* ——— GLOBAL RESET & BASE ——— */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+  font-family: var(--ff-base);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-normal);
+  color: var(--clr-text);
+  background-color: var(--clr-bg);
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
+a {
+  color: var(--clr-accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--clr-accent-hover);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: var(--ff-base);
+  cursor: pointer;
+}
+
+/* ——— LAYOUT UTILITIES ——— */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-md) 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ——— TYPOGRAPHY ——— */
+h1, .h1 {
+  font-size: var(--fs-title);
+  font-weight: var(--fw-bold);
+  margin-bottom: var(--space-md);
+}
+
+h2, .h2 {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  margin-bottom: var(--space-sm);
+}
+
+p, li {
+  font-size: var(--fs-base);
+  margin-bottom: var(--space-md);
+}
+
+/* ——— HEADER ——— */
 header {
-    background-color: #333;
-    color: white;
-    padding: 10px;
-    text-align: center;
+  background-color: var(--clr-primary);
+  color: #fff;
+  padding: var(--space-lg) 0;
+  text-align: center;
 }
 
-h1 {
-    margin: 0;
+/* ——— HERO SECTION ——— */
+.hero {
+  background: var(--clr-secondary);
+  padding: var(--space-xl) 0;
+  text-align: center;
 }
 
+.hero .h1 {
+  margin-bottom: var(--space-md);
+}
+
+/* ——— PRODUCTS GRID ——— */
 #products {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin-top: 20px;
+  padding: var(--space-lg) 0;
 }
 
 .product {
-    background-color: white;
-    border: 1px solid #ddd;
-    padding: 10px;
-    width: 30%;
-    margin-bottom: 20px;
-    text-align: center;
+  background-color: var(--clr-card);
+  border-radius: var(--space-sm);
+  box-shadow: var(--shadow-light);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: var(--shadow-heavy);
 }
 
 .product img {
-    width: 100%;
-    height: auto;
+  height: 200px;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
+.product-content {
+  flex: 1;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-title {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  margin-bottom: var(--space-sm);
+}
+
+.product-price {
+  color: var(--clr-accent);
+  font-size: var(--fs-base);
+  margin-bottom: var(--space-md);
+}
+
+/* ——— BUTTON ——— */
+.button, button {
+  display: inline-block;
+  background-color: var(--clr-accent);
+  color: #fff;
+  border: none;
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  border-radius: var(--space-sm);
+  text-align: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.button:hover, button:hover {
+  background-color: var(--clr-accent-hover);
+  transform: translateY(-2px);
+}
+
+/* ——— FORM ELEMENTS ——— */
+input, select, textarea {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-md);
+  border: 1px solid #ccc;
+  border-radius: var(--space-sm);
+  font-size: var(--fs-base);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--clr-accent);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* ——— NAVIGATION ——— */
+.nav {
+  background-color: var(--clr-primary);
+  padding: var(--space-sm) 0;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.nav a {
+  color: #fff;
+  font-weight: var(--fw-bold);
+}
+
+.nav a:hover {
+  color: var(--clr-accent);
+}
+
+/* ——— FOOTER ——— */
 footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-    margin-top: 20px;
+  background-color: var(--clr-primary);
+  color: #fff;
+  padding: var(--space-md) 0;
+  text-align: center;
+  font-size: var(--fs-sm);
+  margin-top: var(--space-xl);
+}
+
+/* ——— RESPONSIVE TWEAKS ——— */
+@media (max-width: 768px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+  .hero .h1 {
+    font-size: var(--fs-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  header, footer {
+    padding: var(--space-md) 0;
+  }
+  .button, button {
+    width: 100%;
+  }
 }

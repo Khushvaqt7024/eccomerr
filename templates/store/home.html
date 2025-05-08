@@ -4,6 +4,7 @@
 {% block content %}
 <h2 class="mb-4">Mahsulotlar</h2>
 
+<!-- Qidiruv formasi -->
 <form method="get" class="mb-4">
     <div class="input-group">
         <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Mahsulot qidirish...">
@@ -11,6 +12,14 @@
     </div>
 </form>
 
+<!-- Faqat admin foydalanuvchi ko‘radi -->
+{% if request.user.is_authenticated and request.user.is_superuser %}
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{% url 'create_product' %}" class="btn btn-primary">Mahsulot Qo‘shish</a>
+    </div>
+{% endif %}
+
+<!-- Mahsulotlar ro'yxati -->
 <div class="row g-4">
     {% for product in page_obj %}
     <div class="col-md-3">
@@ -20,20 +29,23 @@
                 <h5 class="card-title">{{ product.name }}</h5>
                 <p class="card-text text-muted">{{ product.description|truncatewords:15 }}</p>
                 <div class="mt-auto">
-                    <p class="fw-bold">{{ product.price }} so‘m</p>
-                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success w-100">Savatchaga qo‘shish</a>
+                    <p class="fw-bold">{{ product.price|floatformat:0 }} so‘m</p>
+                    <form method="post" action="{% url 'add_to_cart' product.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success w-100">Savatchaga qo‘shish</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
     {% empty %}
-    <p>Hech qanday mahsulot topilmadi.</p>
+    <div class="col-12">
+        <p>Hech qanday mahsulot topilmadi.</p>
+    </div>
     {% endfor %}
 </div>
-<div class="d-flex justify-content-end mb-3">
-    <a href="{% url 'add_product' %}" class="btn btn-primary">Mahsulot qo‘shish</a>
-</div>
 
+<!-- Sahifalash -->
 {% if page_obj.has_other_pages %}
 <nav class="mt-4" aria-label="Sahifalash">
   <ul class="pagination justify-content-center">
@@ -55,4 +67,5 @@
   </ul>
 </nav>
 {% endif %}
+
 {% endblock %}

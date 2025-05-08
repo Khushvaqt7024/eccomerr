@@ -1,15 +1,14 @@
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
 from django.utils import timezone
 from django.http import HttpResponseForbidden
 
-from .forms import ProductForm
+from .forms import CustomUserCreationForm, ProductForm
 from .models import Product, Cart, CartItem, Order
-
 
 def home(request):
     query = request.GET.get('q', '')
@@ -28,13 +27,13 @@ def home(request):
 
 def register_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'store/register.html', {'form': form})
 
 def login_view(request):
@@ -112,7 +111,7 @@ def checkout_view(request):
 
         cart.is_ordered = True
         cart.save()
-        Cart.objects.create(user=request.user)  # Yangi savat
+        Cart.objects.create(user=request.user)
 
         return render(request, 'store/checkout_success.html', {
             'order': order,
@@ -122,17 +121,16 @@ def checkout_view(request):
 
     return render(request, 'store/checkout.html', {'cart': cart})
 
-
 @login_required
 def my_orders(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'store/my_orders.html', {'orders': orders})
 
-@login_required
-def add_product(request):
-    if not request.user.is_superuser:
-        return HttpResponseForbidden("Faqat Xushvaqt maxsulot qo'sha oladi!")
+def is_admin(user):
+    return user.is_authenticated and user.is_superuser
 
+@user_passes_test(is_admin, login_url='/')
+def create_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
@@ -142,3 +140,4 @@ def add_product(request):
         form = ProductForm()
 
     return render(request, 'store/add_product.html', {'form': form})
+
